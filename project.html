@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>MappedOut</title>
+    <script src="project.js" defer></script>
+    <link rel="stylesheet" href="project.css">
+    <script src="https://kit.fontawesome.com/a92bc851b2.js" crossorigin="anonymous"></script>
+    <meta charset="UTF-8">
+</head>
+<body>
+    <header class="header">
+        <div class="brand">
+            <img src="logo.png" alt="logo" class="normal">
+            <img src="new.png" alt="logo" class="newlogo">
+            <h2>MappedOut</h2>
+        </div>
+        <nav class="navbar">
+            <ul>
+                <li class="homeli" onclick="home()">HOME</li>
+                <li class="calendarli homenoshow" onclick="calendar()">CALENDAR</li>
+                <li class="connectlione homenoshow" onclick="connect()">CONNECT</li>
+                <li class="connectlitwo homenoshow" onclick="connectAfterSet()">CONNECT</li>
+                <li class="journeyli homenoshow" onclick="journey()">YOUR JOURNEY</li>
+            </ul>
+            <button class="navbarButtons">Log In</button>
+            <button class="navbarButtons">Sign Up</button>
+        </nav>
+    </header>
+
+    <div class="homepage">
+        <div class="tophome">
+            <div class="imgholder">
+                <img src="https://dfjx2uxqg3cgi.cloudfront.net/img/photo/125563/125563_00_2x.jpg?20170617090027" alt="happy students">
+            </div>
+            <div class="home-text">
+                <h1>MappedOut: The Clearest Path to Your Future</h1>
+                <h2>Familial Peace of Heart, Soul, and Mind</h2>
+                <button onclick="getStarted()">Get Started</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="calendarpage" style="display: none;">
+        <div class="not-task">
+            <div class="calendarpart">
+                <div class="toptopcalendar">
+                    <h1 id="month-display"></h1>
+                    <select name="calendarview" id="view-select" onchange="handleViewChange()">
+                        <option value="monthly">Monthly</option>
+                        <option value="weekly">Weekly</option>
+                        <option value="Daily">Daily</option>
+                    </select>
+                </div>
+                <div class="calendar-weekdays">
+                    <div>SUN</div>
+                    <div>MON</div>
+                    <div>TUE</div>
+                    <div>WED</div>
+                    <div>THU</div>
+                    <div>FRI</div>
+                    <div>SAT</div>
+                </div>
+                <div id="calendar-grid" class="calendar-grid"></div>
+                <div id="event-overlay" class="event-overlay" style="display:none;">
+                    <div class="task-sheet">
+                        <div class="task-header">
+                            <span class="close-btn" onclick="closeModal()">←</span>
+                            <span class="delete-btn" onclick="closeModal()">🗑</span>
+                        </div>
+                        <input
+                            id="event-title"
+                            class="task-title"
+                            type="text"
+                            placeholder="New Task..."
+                        />
+                        <div class="task-meta">
+                            <div class="meta-row clickable" onclick="openDatePicker()">
+                                <span class="meta-icon">📅</span>
+                                <span class="meta-label">Date:</span>
+                                <span class="meta-value" id="task-date">Select Date:</span>
+                                <input type="date" id="task-date-input" hidden>
+                            </div>
+                            <div class="meta-row clickable" onclick="toggleTimePicker()">
+                                <span class="meta-icon">⏰</span>
+                                <span class="meta-label">Time:</span>
+                                <span class="meta-value" id="task-time">Select Time:</span>
+                            </div>
+                            <div class="time-picker" id="time-picker"></div>
+                            <div class="meta-row clickable" onclick="toggleTagPicker()">
+                                <span class="meta-icon">🏷</span>
+                                <span class="meta-label">Tags:</span>
+                                <div class="tag-container" id="task-tags">
+                                    <span class="tag-placeholder">None</span>
+                                </div>
+                            </div>
+                            <div class="tag-picker" id="tag-picker">
+                                <span class="tag school" onclick="selectTag(this)">School</span>
+                                <span class="tag extracurricular" onclick="selectTag(this)">Extra-Curricular</span>
+                                <span class="tag fun" onclick="selectTag(this)">Fun</span>
+                                <input class="newtag-btn" id="new-tag-input" type="text" placeholder="+ New Tag" onkeydown="handleNewTag(event)">
+                            </div>
+                        </div>
+                        <textarea
+                            id="task-notes"
+                            class="task-notes"
+                            placeholder="Add Notes..."
+                        ></textarea>
+                        <button class="save-btn" onclick="saveEvent()">Save Event</button>
+                    </div>
+                </div>
+                <div id="event-details-overlay" class="event-overlay" style="display:none;">
+                    <div class="event-box" id="event-details-box">
+                        <div class="titleeventbox">
+                            <h2 id="event-details-title"></h2>
+                            <span class="delete-btn" onclick="deleteEvent()">🗑</span>
+                            <span class="edit-btn" onclick="editEvent()">✏️</span>  
+                        </div>
+                        <p id="event-details-time"></p>
+                        <p id="event-details-tags"></p>
+                        <p id="event-details-notes"></p>
+                        <button onclick="closeEventDetails()">Close</button>
+                    </div>
+                </div>
+            </div>
+            <button id="tasklistbtn" onclick="taskListPage()">Open Tasks List</button>
+        </div>
+
+        <div class="tasklistbox">
+            <h2>Daily To-Dos</h2>
+            <div class="checkbox-container">
+                <input type="checkbox">
+                <label for="to-dos">Practice Piano</label>
+            </div>
+            <div class="checkbox-container">
+                <input type="checkbox">
+                <label for="to-dos">Practice Violin</label>
+            </div>
+            <div class="checkbox-container">
+                <input type="checkbox">
+                <label for="to-dos">Music Theory Homework</label>
+            </div>
+            <div class="checkbox-container">
+                <input type="checkbox">
+                <label for="to-dos">Spanish Homework</label>
+            </div>
+            <div class="checkbox-container">
+                <input type="checkbox">
+                <label for="to-dos">Mandarin Homework</label>
+            </div>
+            <div class="checkbox-container">
+                <input type="checkbox">
+                <label for="to-dos">Practice For the AP Latin Test</label>
+            </div>
+            <div class="checkbox-container">
+                <input type="checkbox">
+                <label for="to-dos">Meditate</label>
+            </div>
+            <div class="checkbox-container">
+                <input type="checkbox">
+                <label for="to-dos">Read 30 Minutes</label>
+            </div>
+            <div class="checkbox-container">
+                <input type="checkbox">
+                <label for="to-dos">Drink Water</label>
+            </div>
+            <div class="checkbox-container">
+                <input type="text" class="newonetask" placeholder="New Task...">
+            </div>
+            <button onclick="calendar()" class="returnbtn">Return to Calendar</button>
+        </div>
+    </div>
+
+   <div class="connectpage">
+        <div class="schoollook">
+            <h1>Welcome!</h1>
+            <h3>Before We Start, We Would Like To Know Which Schools You Are Looking At! Please Select All Schools You Are Interested In:</h3>
+
+            <div class="chooseschool">
+                <div>
+                    <h4>Ivy League & Equivalents</h4>
+                    <div class="ivyleague_equivs" id="ivyContainer"></div>
+                </div>
+
+                <div>
+                    <h4>Non-Ivy / Non-Equivalents</h4>
+                    <div class="nonivy_nonequivs" id="nonIvyContainer"></div>
+                </div>
+            </div>
+
+            <button class="connect-continue" onclick="connectAfterSet()">Continue →</button>
+        </div>
+    </div>
+
+    <div class="connectafterset">
+        <div class="optionsfolder">
+            <div class="option">
+                <i class="fa-solid fa-calendar"></i>
+                <h3>Schedule Meeting</h3>
+            </div>
+            <div class="option">
+                <i class="fa-solid fa-plus"></i>
+                <h3>Join Meeting</h3>
+            </div>
+            <div class="option">
+                <i class="fa-solid fa-paper-plane"></i>
+                <h3>Request</h3>
+            </div>
+            <div class="option">
+                <i class="fa-solid fa-atom"></i>
+                <h3>Connect and Meet</h3>
+            </div>
+        </div>
+    </div>
+
+    <div class="journeypage"></div>
+
+    <div class="getstartedpage">
+        <div class="notsign">
+            <h1>The Ultimate College Application Experience</h1>
+            <h3>Familial Peace of Heart, Soul, and Mind: The Clearest Path to Your Future</h3>
+
+            <ul class="get-started-list">
+                <li>Conect with local college counceling experts</li>
+                <li>Create and work on a college application journey taylored to you and your family's wants and needs</li>
+                <li>View upcoming events on the built in calendar</li>
+                <li>Watch videos from counselors and current college students to help better mental health</li>
+                <li>Totally free--if eligible, get college economic help</li>
+            </ul>
+            <button class="signupButtons">Sign Up</button>
+        </div>
+
+        <div class="signupbox">
+            <h2>Get Started <span>Today</span> to Make Your College Application <span>Journey Meaningful</span> and <span>Stress-Free</span></h2>
+            <input type="text" placeholder="Full Name" required>
+            <input type="text" placeholder="Phone Number">
+            <input type="text" placeholder="Email" required>
+            <input type="text" placeholder="Parent Email">
+            <div class="checkbox-container">
+                <input type="checkbox" id="terms">
+                <label for="terms">I agree to <a href="https://tenor.com/search/dancing-banana-gifs" target="_blank">terms and conditions</a></label>
+            </div>
+            <button class="signupButtons" class="signupbutton" onclick="logIn()">Log In</button>
+        </div>
+    </div>
+</body>
+</html>
